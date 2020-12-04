@@ -1128,11 +1128,11 @@ class Passport:
       "cid": None
     }
     self.fieldValidations = {
-      "byr": lambda x : len(x) == 4 and 1920 <= int(x) and int(x) <= 2002,
-      "iyr": lambda x : len(x) == 4 and 2010 <= int(x) and int(x) <= 2020,
-      "eyr": lambda x : len(x) == 4 and 2020 <= int(x) and int(x) <= 2030,
-      "hgt": lambda x : (x[-2:] == "cm" and 150 <= int(x[:-2]) and int(x[:-2]) <= 193) or (x[-2:] == "in" and 59 <= int(x[:-2]) and int(x[:-2]) <= 193),
-      "hcl": lambda x : x[0] == '#' and len(x[1:]) == 6 and len( [1 for c in x[1:] if c.isnumeric() or c in ('a', 'b', 'c', 'd', 'e', 'f')] ) > 0,
+      "byr": lambda x : x.isnumeric() and len(x) == 4 and 1920 <= int(x) and int(x) <= 2002,
+      "iyr": lambda x : x.isnumeric() and len(x) == 4 and 2010 <= int(x) and int(x) <= 2020,
+      "eyr": lambda x : x.isnumeric() and len(x) == 4 and 2020 <= int(x) and int(x) <= 2030,
+      "hgt": lambda x : (x[-2:] == "cm" and 150 <= int(x[:-2]) and int(x[:-2]) <= 193) or (x[-2:] == "in" and 59 <= int(x[:-2]) and int(x[:-2]) <= 76),
+      "hcl": lambda x : x[0] == '#' and len(x[1:]) == 6 and sum( [1 for c in x[1:] if c.isnumeric() or c in ('a', 'b', 'c', 'd', 'e', 'f')] ) > 0,
       "ecl": lambda x : x in ("amb", "blu", "brn", "gry", "grn", "hzl", "oth"),
       "pid": lambda x : x.isnumeric() and len(x) <= 9,
       "cid": lambda x : True
@@ -1146,7 +1146,7 @@ class Passport:
     if use_old_test:
       return sum( [1 for key in self.fields.keys() if self.fields[key] is None and key != "cid"] ) == 0
     else:
-      return sum( [1 for key in self.fields.keys() if (self.fields[key] is None and key != "cid") or self.fieldValidations[key](self.fields[key]) == False] ) == 0
+      return sum( [1 for key in self.fields.keys() if (self.fields[key] is None and key != "cid") or self.fieldValidations[key](self.fields[key]) is False] ) == 0
   
   def __repr__(self):
     return "<Passport fields:%s>" % (self.fields)
