@@ -1134,7 +1134,7 @@ class Passport:
       "hgt": lambda x : (x[-2:] == "cm" and 150 <= int(x[:-2]) and int(x[:-2]) <= 193) or (x[-2:] == "in" and 59 <= int(x[:-2]) and int(x[:-2]) <= 76),
       "hcl": lambda x : x[0] == '#' and len(x[1:]) == 6 and sum( [1 for c in x[1:] if c.isnumeric() or c in ('a', 'b', 'c', 'd', 'e', 'f')] ) > 0,
       "ecl": lambda x : x in ("amb", "blu", "brn", "gry", "grn", "hzl", "oth"),
-      "pid": lambda x : x.isnumeric() and len(x) <= 9,
+      "pid": lambda x : x.isnumeric() and len(x) == 9,
       "cid": lambda x : True
     }
     for line in inputStr.splitlines():
